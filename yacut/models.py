@@ -1,9 +1,10 @@
-from datetime import datetime
-from sqlalchemy.orm import validates
-from .error_handlers import InvalidAPIUsage
 import re
+from datetime import datetime
+
+from sqlalchemy.orm import validates
 
 from . import db
+from .error_handlers import InvalidAPIUsage
 
 URL = 'http://localhost/'
 
