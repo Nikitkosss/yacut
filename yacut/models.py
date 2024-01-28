@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 from urllib.parse import urlparse
+
 from sqlalchemy.orm import validates
 
 from . import db

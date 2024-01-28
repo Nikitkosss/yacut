@@ -7,7 +7,6 @@ from yacut import app, db
 from yacut.forms import URLMapForm
 from yacut.models import URLMap
 
-
 GENERATED_SHORT_ID_LENGTH = 6
 
 
