@@ -1,23 +1,27 @@
 from random import choice
 from string import ascii_lowercase, ascii_uppercase, digits
 
-from flask import abort, flash, redirect, render_template
+from flask import flash, redirect, render_template
 
 from yacut import app, db
 from yacut.forms import URLMapForm
 from yacut.models import URLMap
 
 
-def get_unique_short_id():
-    short = ''.join(
+GENERATED_SHORT_ID_LENGTH = 6
+
+
+def string_generator():
+    return ''.join(
         choice(ascii_uppercase + ascii_lowercase + digits)
-        for _ in range(6)
+        for _ in range(GENERATED_SHORT_ID_LENGTH)
     )
+
+
+def get_unique_short_id():
+    short = string_generator()
     while URLMap.query.filter_by(short=short).first():
-        short = ''.join(
-            choice(ascii_uppercase + ascii_lowercase + digits)
-            for _ in range(6)
-        )
+        short = string_generator()
     return short
 
 
@@ -51,9 +55,5 @@ def generate_short_id_view():
 
 @app.route('/<string:short>')
 def short_id_view(short):
-    url_map = URLMap.query.filter_by(short=short).first()
-
-    if url_map:
-        return redirect(url_map.original)
-    else:
-        abort(404)
+    url_map = URLMap.query.filter_by(short=short).first_or_404()
+    return redirect(url_map.original)
