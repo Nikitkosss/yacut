@@ -39,7 +39,7 @@ class URLMap(db.Model):
                 'Предложенный вариант короткой ссылки уже существует.'
             )
 
-        correct = re.match("""^[a-zA-z0-9]{0,16}$""", value)
+        correct = re.match("^[a-zA-z0-9]{0,16}$", value)
         if not correct:
             raise InvalidAPIUsage(
                 'Указано недопустимое имя для короткой ссылки'
