@@ -1,11 +1,13 @@
 import re
 from datetime import datetime
-from urllib.parse import urlparse
 
 from sqlalchemy.orm import validates
 
 from . import db
 from .error_handlers import InvalidAPIUsage
+
+
+URL = 'http://localhost/'
 
 
 class URLMap(db.Model):
@@ -15,11 +17,9 @@ class URLMap(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def to_dict(self):
-        parsed_url = urlparse(self.original)
-        domain = parsed_url.netloc
         return {
             'url': self.original,
-            'short_link': f'{domain}/{self.short}'
+            'short_link': URL + self.short
         }
 
     def from_dict(self, data):
